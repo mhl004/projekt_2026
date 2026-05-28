@@ -119,6 +119,6 @@ st.write(f"**Liczba miesięcy, w których znaleziono reguły asocjacyjne**: {ile
 st.write(f"**Miesiące z regułami asocjacyjnymi**: {', '.join(wybrane)}.")
 st.write(f"**Liczba produktów, które pojawiają się w regułach na przestrzeni całego roku**: {len(produkty_w_zasadach)}")
 st.write("\n")
-st.write("<u>Lista produktów (nazwy produktów):</u>", unsafe_allow_html=True)
+st.write("<u>Lista tych produktów:</u>", unsafe_allow_html=True)
 for i in produkty_w_zasadach:
     st.write('*', oferta_slownik[i], '\n')
