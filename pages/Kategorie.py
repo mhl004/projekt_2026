@@ -4,12 +4,18 @@ import numpy as np
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 
+st.markdown("""
+<style>
+* {
+    font-family: "Yu Gothic" !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 #wczytanie tabelek
-#Apteka = pd.read_csv('Apteka.csv', sep=',',decimal=".")
-#Dokumenty = pd.read_csv('Dokumenty_bez_SQ.csv', sep=',',decimal=".")
 
 st.title("Sprzedaż dla kategorii")
-#Pozycja = pd.read_csv('dane_streamlit.csv', sep=',',decimal=".")
 
 #Produkty = pd.read_csv('Produkty_bez_urz.csv', sep=',',decimal=".")
 P1 = pd.read_csv('dane_streamlit_1.csv', sep=',',decimal=".", index_col=0)
@@ -61,10 +67,10 @@ param_min_t_kat = {'DIABETOLOGIA':1.8, 'PARAZYTOLOGIA':1.2,'OPATRUNKI I MATERIAL
 
 
 #nagłówek strony
-st.write('Reguły asocjacyjne dla podanej kategorii w skali roku')
+st.write('<u>Reguły asocjacyjne dla podanej kategorii w skali roku</u>', unsafe_allow_html=True)
 col1, = st.columns(1)
 #kat = col1.text_input('Kategoria:', value='PARAZYTOLOGIA')
-kat = col1.selectbox('Kategoria:', Pozycja['Kat. detal.'].unique(), index=None)
+kat = col1.selectbox('**Kategoria**:', Pozycja['Kat. detal.'].unique(), index=None)
 if not kat:
     kat = 'SRODKI PRZECIWBOLOWE'
 
@@ -109,9 +115,10 @@ st.line_chart(data=do_wykresu, y='Liczba reguł', x='Miesiace')
 wybrane = do_wykresu[do_wykresu['Liczba reguł']>0]
 wybrane = [miesiac_slownik[i] for i in wybrane['Miesiace']]
 
-st.write(f"Liczba miesięcy, w których znaleziono reguły asocjacyjne: {ile}")
-st.write(f"Miesiące z regułami asocjacyjnymi: {', '.join(wybrane)}.")
-st.write(f"Liczba produktów, które pojawiają się w regułach na przestrzeni całego roku: {len(produkty_w_zasadach)}")
-st.write("Lista produktów (nazwy produktów):")
+st.write(f"**Liczba miesięcy, w których znaleziono reguły asocjacyjne**: {ile}")
+st.write(f"**Miesiące z regułami asocjacyjnymi**: {', '.join(wybrane)}.")
+st.write(f"**Liczba produktów, które pojawiają się w regułach na przestrzeni całego roku**: {len(produkty_w_zasadach)}")
+st.write("\n")
+st.write("<u>Lista produktów (nazwy produktów):</u>", unsafe_allow_html=True)
 for i in produkty_w_zasadach:
-    st.write(oferta_slownik[i], '\n')
+    st.write('*', oferta_slownik[i], '\n')
