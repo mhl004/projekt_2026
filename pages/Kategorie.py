@@ -6,7 +6,7 @@ from mlxtend.frequent_patterns import association_rules
 
 st.markdown("""
 <style>
-* {
+{
     font-family: "Yu Gothic" !important;
 }
 </style>
