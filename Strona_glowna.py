@@ -13,7 +13,7 @@ st.markdown("""
     border-color: #4169E1;
     background-color: #00FFFFF;
 }
-* {
+{
     font-family: "Yu Gothic" !important;
 }
 
