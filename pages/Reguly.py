@@ -1,22 +1,23 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 
+
+
+st.markdown("""
+<style>
+* {
+    font-family: "Yu Gothic" !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 st.title("Reguły asocjacyjne")
 
 #wczytanie tabelek
-#Apteka = pd.read_csv('Apteka.csv', sep=',',decimal=".")
-#Dokumenty = pd.read_csv('Dokumenty_bez_SQ.csv', sep=',',decimal=".")
-
-###Pozycja_neuca = pd.read_csv('NEUCA_Pozycja_miesiac_i_kod.csv', sep=',',decimal=".")
-###Pozycja_nieneuca = pd.read_csv('NIENEUCA_Pozycja_miesiac_i_kod.csv', sep=',',decimal=".")
-#Pozycja = pd.read_csv('dane_streamlit.csv', sep=',',decimal=".")
-
-#Produkty = pd.read_csv('Produkty_bez_urz.csv', sep=',',decimal=".")
-
 P1 = pd.read_csv('dane_streamlit_1.csv', sep=',',decimal=".", index_col=0)
 P2 = pd.read_csv('dane_streamlit_2.csv', sep=',',decimal=".", index_col=0)
 P3 = pd.read_csv('dane_streamlit_3.csv', sep=',',decimal=".", index_col=0)
@@ -62,12 +63,13 @@ param_min_t_kat = {'DIABETOLOGIA':1.8, 'PARAZYTOLOGIA':1.2,'OPATRUNKI I MATERIAL
                   'PLODNOSC I CIAZA':2, 'SEZON OWADY':3}
 
 #nagłówek strony
-st.write('Reguły asocjacyjne dla produktów z wybranej kategorii w wybranym miesiącu')
+st.write('<u>Reguły asocjacyjne dla produktów z wybranej kategorii w wybranym miesiącu</u>', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
-#kat = col1.text_input('Kategoria:', value='PARAZYTOLOGIA')
-kat = col1.selectbox('Kategoria:', Pozycja['Kat. detal.'].unique(), index=None)
+
+kat = col1.selectbox('**Kategoria**:', Pozycja['Kat. detal.'].unique(), index=None)
 if not kat:
     kat = 'SRODKI PRZECIWBOLOWE'
+
 mies = col2.number_input('Miesiac:', min_value=1, max_value=12, value=6)
 
 
@@ -165,15 +167,13 @@ prod_nieneuca['Nazwa produktu'] = prod_nieneuca['Kod SAP produktu'].map(oferta_s
 
 st.write('\n')
 st.write('\n')
-st.write('Sprzedaż wyróżnionych produktów przez NEUCA')
+st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
 st.write('\n')
 st.bar_chart(data=prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
 
 
 st.write('\n')
 st.write('\n')
-st.write('Sprzedaż wyróżnionych produktów przez konkurencję')
+st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
 st.write('\n')
 st.bar_chart(data=prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
-
-    
