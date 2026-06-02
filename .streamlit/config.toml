@@ -108,3 +108,9 @@ family = "Poppins"
 url = "app/static/Poppins-BlackItalic.ttf"
 style = "italic"
 weight = "900"
+
+[theme]
+font = "Poppins"
+headingFontWeights = [600, 500, 500, 500, 500, 500]
+headingFontSizes = ["3rem", "2.5rem", "2.25rem", "2rem", "1.5rem"]
+chartCategoricalColors = ["#ffc862", "#2d46b9", "#b49bc8"]
