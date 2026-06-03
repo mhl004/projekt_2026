@@ -3,12 +3,11 @@ import pandas as pd
 import numpy as np
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
-
+import plotly.express as px
 #wczytanie tabelek
 
 st.header(":blue[Kategorie detaliczne]", divider="blue")
 
-#Produkty = pd.read_csv('Produkty_bez_urz.csv', sep=',',decimal=".")
 P1 = pd.read_csv('dane_streamlit_1.csv', sep=',',decimal=".", index_col=0)
 P2 = pd.read_csv('dane_streamlit_2.csv', sep=',',decimal=".", index_col=0)
 P3 = pd.read_csv('dane_streamlit_3.csv', sep=',',decimal=".", index_col=0)
@@ -39,7 +38,6 @@ miesiac_slownik = {1: "Styczeń", 2: "Luty", 3: "Marzec", 4: "Kwiecień",
 
 #NAGLOWEK
 col1, = st.columns(1)
-#kat = col1.text_input('Kategoria:', value='PARAZYTOLOGIA')
 kat = col1.selectbox('**Kategoria**:', Pozycja['Kat. detal.'].unique(), index=None)
 if not kat:
     kat = 'SRODKI PRZECIWBOLOWE'
@@ -72,19 +70,19 @@ for mies in range(1, 13):
             for _, row in rules.iterrows():
                 produkty_w_zasadach.update(row['antecedents'])
                 produkty_w_zasadach.update(row['consequents'])
-        
 
-#st.write(ile, '\n')
 
 st.write('Reguły asocjacyjne dla kategorii ',kat,' w skali roku')
 
-do_wykresu = pd.DataFrame()#(colnames=['Liczba regul', 'Miesiace'])
+do_wykresu = pd.DataFrame()
 do_wykresu['Liczba reguł'] = ktore
-do_wykresu['Miesiace'] = range(1,13)
-st.line_chart(data=do_wykresu, y='Liczba reguł', x='Miesiace')
+do_wykresu['Miesiąc'] = range(1,13)
+do_wykresu['Miesiąc'] = do_wykresu['Miesiąc'].map(miesiac_slownik)
+fig = px.line(do_wykresu, y='Liczba reguł', x='Miesiąc')
+fig.update_layout(xaxis=dict(type='category'))
+st.plotly_chart(fig, theme="streamlit")
 
-wybrane = do_wykresu[do_wykresu['Liczba reguł']>0]
-wybrane = [miesiac_slownik[i] for i in wybrane['Miesiace']]
+wybrane = do_wykresu['Miesiąc'][do_wykresu['Liczba reguł']>0]
 
 st.write(f"**Liczba miesięcy, w których znaleziono reguły asocjacyjne**: {ile}")
 st.write(f"**Miesiące z regułami asocjacyjnymi**: {', '.join(wybrane)}.")
