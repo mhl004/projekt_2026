@@ -4,7 +4,6 @@ import numpy as np
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 import plotly.express as px
-#wczytanie tabelek
 
 st.header(":blue[Kategorie detaliczne]", divider="blue")
 
