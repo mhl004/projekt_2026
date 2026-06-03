@@ -1,4 +1,4 @@
-
+import plotly.express as px
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -139,15 +139,16 @@ prod_neuca['Nazwa produktu'] = prod_neuca['Kod SAP produktu'].map(oferta_slownik
 prod_nieneuca = prod[prod['Dostawca NEUCA']==False].groupby(['Kod SAP produktu', 'Znacznik promocja'])['Łączna wartość (pln)'].sum().reset_index()
 prod_nieneuca['Nazwa produktu'] = prod_nieneuca['Kod SAP produktu'].map(oferta_slownik)
 
+
 st.write('\n')
 st.write('\n')
 st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
-st.write('\n')
-st.bar_chart(data=prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+st.plotly_chart(fig, theme="streamlit")
 
 
 st.write('\n')
 st.write('\n')
 st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
-st.write('\n')
-st.bar_chart(data=prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+st.plotly_chart(fig, theme="streamlit")
