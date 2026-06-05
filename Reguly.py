@@ -146,7 +146,7 @@ prod_ogolnie['Dostawca'] = prod_ogolnie['Dostawca NEUCA'].map({True:'Neuca', Fal
 prod_ogolnie['Nazwa produktu'] = prod_ogolnie['Kod SAP produktu'].map(oferta_slownik)
 
 st.write('\n')
-st.markdown('### :blue[Analiza sprzedaży wyróżnionych produktów]')
+st.subheader(':blue[Analiza sprzedaży wyróżnionych produktów]')
 tab1, tab2= st.tabs(["Udział Neuca w sprzedaży","Występowanie promocji w sprzedaży"])
 
 with tab1:
