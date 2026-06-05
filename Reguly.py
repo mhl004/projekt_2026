@@ -144,9 +144,9 @@ st.write('\n')
 st.write('\n')
 
 stack = st.segmented_control(
-    "Wartość na wykresie",
+    "Wartość na wykresach",
     ["nominalna", "procentowa"],
-    key="area_chart_stack",
+    key="bar_chart_stack",
 )
 st.write('\n')
 st.write('\n')
