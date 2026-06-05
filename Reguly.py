@@ -142,13 +142,36 @@ prod_nieneuca['Nazwa produktu'] = prod_nieneuca['Kod SAP produktu'].map(oferta_s
 
 st.write('\n')
 st.write('\n')
-st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
-fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
-st.plotly_chart(fig, theme="streamlit")
 
+stack = st.segmented_control(
+    "Wartość na wykresie",
+    ["nominalna", "procentowa"],
+    key="area_chart_stack",
+)
+    st.write('\n')
+    st.write('\n')
 
-st.write('\n')
-st.write('\n')
-st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
-fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
-st.plotly_chart(fig, theme="streamlit")
+if stack=="procentowa":
+    prod_neuca['Wartość procentowa'] = 100 * prod_neuca['Łączna wartość (pln)']/prod_neuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
+    prod_nieneuca['Wartość procentowa'] = 100 * prod_nieneuca['Łączna wartość (pln)']/prod_nieneuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
+    
+    st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
+    fig = px.bar(prod_neuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
+    st.plotly_chart(fig, theme="streamlit")
+    st.write('\n')
+    st.write('\n')
+    st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
+    fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
+    st.plotly_chart(fig, theme="streamlit")
+
+    
+else:
+    st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
+    fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+    st.plotly_chart(fig, theme="streamlit")
+    st.write('\n')
+    st.write('\n')
+    st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
+    fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+    st.plotly_chart(fig, theme="streamlit")
+    
