@@ -131,47 +131,77 @@ prod = Pozycja_kategoria[Pozycja_kategoria['Kod SAP produktu'].isin(p)]
 prod['Znacznik promocja'] = prod['Znacznik promocja'].astype(bool)
 
 prod = prod.rename(columns={'Wartosc' : 'Łączna wartość (pln)'})
-prod['Znacznik promocja'] = prod['Znacznik promocja'].map({True:'Prawda', False:'Fałsz'})
 
 prod_neuca = prod[prod['Dostawca NEUCA']==True].groupby(['Kod SAP produktu', 'Znacznik promocja'])['Łączna wartość (pln)'].sum().reset_index()
 prod_neuca['Nazwa produktu'] = prod_neuca['Kod SAP produktu'].map(oferta_slownik)
+prod_neuca['Znacznik promocja'] = prod_neuca['Znacznik promocja'].map({True:'Prawda', False:'Fałsz'})
+
 
 prod_nieneuca = prod[prod['Dostawca NEUCA']==False].groupby(['Kod SAP produktu', 'Znacznik promocja'])['Łączna wartość (pln)'].sum().reset_index()
 prod_nieneuca['Nazwa produktu'] = prod_nieneuca['Kod SAP produktu'].map(oferta_slownik)
+prod_nieneuca['Znacznik promocja'] = prod_nieneuca['Znacznik promocja'].map({True:'Prawda', False:'Fałsz'})
 
+prod_ogolnie = prod.groupby(['Kod SAP produktu', 'Dostawca NEUCA'])['Łączna wartość (pln)'].sum().reset_index()
+prod_ogolnie['Dostawca'] = prod_ogolnie['Dostawca NEUCA'].map({True:'Neuca', False:'inni dostawcy'})
+prod_ogolnie['Nazwa produktu'] = prod_ogolnie['Kod SAP produktu'].map(oferta_slownik)
 
 st.write('\n')
-st.write('\n')
+st.subheader(':blue[Analiza sprzedaży wyróżnionych produktów]')
+tab1, tab2= st.tabs(["Udział Neuca w sprzedaży","Występowanie promocji w sprzedaży"])
 
-stack = st.segmented_control(
-    "Wartość na wykresach",
-    ["nominalna", "procentowa"],
-    key="bar_chart_stack",
-)
-st.write('\n')
-st.write('\n')
+with tab1:
+    st.write('\n')
+    stack = st.segmented_control(
+        "Wartość na wykresach",
+        ["nominalna", "procentowa"],
+        key="bar_chart_stack1",)
 
-if stack=="procentowa":
-    prod_neuca['Wartość procentowa'] = 100 * prod_neuca['Łączna wartość (pln)']/prod_neuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
-    prod_nieneuca['Wartość procentowa'] = 100 * prod_nieneuca['Łączna wartość (pln)']/prod_nieneuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
+    if stack=="procentowa":
+        prod_ogolnie['Wartość procentowa'] = 100 * prod_ogolnie['Łączna wartość (pln)']/prod_ogolnie.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
+        st.write('<u>Sprzedaż wyróżnionych produktów w podziale na dostawcę</u>', unsafe_allow_html=True)
+        fig = px.bar(prod_ogolnie, x='Nazwa produktu', y='Wartość procentowa', color='Dostawca')
+        st.plotly_chart(fig, theme="streamlit")
+    else:
+        st.write('<u>Sprzedaż wyróżnionych produktów w podziale na dostawcę</u>', unsafe_allow_html=True)
+        fig = px.bar(prod_ogolnie, x='Nazwa produktu', y='Łączna wartość (pln)', color='Dostawca')
+        st.plotly_chart(fig, theme="streamlit")
+        
+        
     
-    st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
-    fig = px.bar(prod_neuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
-    st.plotly_chart(fig, theme="streamlit")
-    st.write('\n')
-    st.write('\n')
-    st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
-    fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
-    st.plotly_chart(fig, theme="streamlit")
-
     
-else:
-    st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
-    fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
-    st.plotly_chart(fig, theme="streamlit")
+
+with tab2:
+    st.write('\n')
+    
+    stack = st.segmented_control(
+        "Wartość na wykresach",
+        ["nominalna", "procentowa"],
+        key="bar_chart_stack2",)
+    
     st.write('\n')
     st.write('\n')
-    st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
-    fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
-    st.plotly_chart(fig, theme="streamlit")
+    
+    if stack=="procentowa":
+        prod_neuca['Wartość procentowa'] = 100 * prod_neuca['Łączna wartość (pln)']/prod_neuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
+        prod_nieneuca['Wartość procentowa'] = 100 * prod_nieneuca['Łączna wartość (pln)']/prod_nieneuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
+        
+        st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
+        fig = px.bar(prod_neuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
+        st.plotly_chart(fig, theme="streamlit")
+        st.write('\n')
+        st.write('\n')
+        st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
+        fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
+        st.plotly_chart(fig, theme="streamlit")
+    
+        
+    else:
+        st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
+        fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+        st.plotly_chart(fig, theme="streamlit")
+        st.write('\n')
+        st.write('\n')
+        st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
+        fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+        st.plotly_chart(fig, theme="streamlit")
     
