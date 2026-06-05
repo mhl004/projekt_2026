@@ -148,8 +148,8 @@ stack = st.segmented_control(
     ["nominalna", "procentowa"],
     key="area_chart_stack",
 )
-    st.write('\n')
-    st.write('\n')
+st.write('\n')
+st.write('\n')
 
 if stack=="procentowa":
     prod_neuca['Wartość procentowa'] = 100 * prod_neuca['Łączna wartość (pln)']/prod_neuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
