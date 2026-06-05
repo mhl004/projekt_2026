@@ -112,5 +112,5 @@ weight = "900"
 [theme]
 primaryColor = "#12A8EC"
 font = "Poppins"
-headingFontWeights = [600, 500, 500, 500, 500, 500]
-headingFontSizes = ["3rem", "2.5rem", "2.25rem", "2rem", "1.5rem"]
+headingFontWeights = [600, 500, 400, 400, 400, 400]
+headingFontSizes = ["3rem", "2.5rem", "2rem", "2rem", "1.5rem"]
