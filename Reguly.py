@@ -146,15 +146,18 @@ prod_ogolnie['Dostawca'] = prod_ogolnie['Dostawca NEUCA'].map({True:'Neuca', Fal
 prod_ogolnie['Nazwa produktu'] = prod_ogolnie['Kod SAP produktu'].map(oferta_slownik)
 
 st.write('\n')
-st.subheader(':blue[Analiza sprzedaży wyróżnionych produktów]')
+st.markdown('### :blue[Analiza sprzedaży wyróżnionych produktów]')
 tab1, tab2= st.tabs(["Udział Neuca w sprzedaży","Występowanie promocji w sprzedaży"])
 
 with tab1:
     st.write('\n')
+    
     stack = st.segmented_control(
         "Wartość na wykresach",
         ["nominalna", "procentowa"],
         key="bar_chart_stack1",)
+
+    st.write('\n')
 
     if stack=="procentowa":
         prod_ogolnie['Wartość procentowa'] = 100 * prod_ogolnie['Łączna wartość (pln)']/prod_ogolnie.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
@@ -178,7 +181,6 @@ with tab2:
         ["nominalna", "procentowa"],
         key="bar_chart_stack2",)
     
-    st.write('\n')
     st.write('\n')
     
     if stack=="procentowa":
