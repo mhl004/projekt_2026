@@ -65,7 +65,7 @@ Koszyk = pd.crosstab(Pozycja_kategoria_neuca['Kod dokumentu'],Pozycja_kategoria_
 Koszyk = Koszyk>0
 zbiory_czeste = apriori(Koszyk, use_colnames = True,min_support = m_s)
 rules = association_rules(zbiory_czeste,metric = 'lift',min_threshold = m_t)
-rules_tabelka = rules[['antecedents','consequents', 'lift']]
+rules_tabelka = rules[['antecedents','consequents','confidence', 'lift']]
 tabelka_rules = pd.DataFrame()
 poprzednicy = []
 for x in rules_tabelka['antecedents']:
@@ -81,7 +81,10 @@ for x in rules_tabelka['consequents']:
     nastepnicy.append(pom)
 tabelka_rules['Poprzednicy'] = poprzednicy
 tabelka_rules['Nastepnicy'] = nastepnicy
-tabelka_rules['Wzrost zakupu'] = rules_tabelka['lift']
+tabelka_rules['Miara ufności'] = rules_tabelka['confidence']
+tabelka_rules['Miara wzrostu'] = rules_tabelka['lift']
+tabelka_rules = tabelka_rules.sort_values(['Miara wzrostu', 'Miara ufności'], ascending=False)
+tabelka_rules.index = [''] * len(tabelka_rules)
 
 
 #przygotowanie do rysowania wykresu 
