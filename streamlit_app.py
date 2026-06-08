@@ -9,12 +9,12 @@ pages = [
         title="Strona główna"
     ),
     st.Page(
-        "Reguly.py",
-        title="Reguły asocjacyjne"
-    ),
-    st.Page(
         "Kategorie.py",
         title="Kategorie"
+    ),
+    st.Page(
+        "Reguly.py",
+        title="Reguły asocjacyjne"
     )
 ]
 
