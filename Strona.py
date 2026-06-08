@@ -8,6 +8,6 @@ st.markdown("\n")
 
 cols = st.columns(2)
 with cols[0].container(height=200):
-    reguly_card()
-with cols[1].container(height=200):
     kategorie_card()
+with cols[1].container(height=200):
+    reguly_card()
