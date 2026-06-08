@@ -152,6 +152,9 @@ st.write('\n')
 st.subheader(':blue[Analiza sprzedaży wyróżnionych produktów]')
 tab1, tab2= st.tabs(["Udział Neuca w sprzedaży","Występowanie promocji w sprzedaży"])
 
+kolory_dostawca = {"Neuca": "#62c4f0", "inni dostawcy": "#f5b840"}
+kolory_promocja = {"Prawda":"#a2f067", "Fałsz":"#e36464"}
+
 with tab1:
     st.write('\n')
     
@@ -165,11 +168,11 @@ with tab1:
     if stack=="procentowa":
         prod_ogolnie['Wartość procentowa'] = 100 * prod_ogolnie['Łączna wartość (pln)']/prod_ogolnie.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
         st.write('<u>Sprzedaż wyróżnionych produktów w podziale na dostawcę</u>', unsafe_allow_html=True)
-        fig = px.bar(prod_ogolnie, x='Nazwa produktu', y='Wartość procentowa', color='Dostawca')
+        fig = px.bar(prod_ogolnie, x='Nazwa produktu', y='Wartość procentowa', color='Dostawca', color_discrete_map=kolory_dostawca)
         st.plotly_chart(fig, theme="streamlit")
     else:
         st.write('<u>Sprzedaż wyróżnionych produktów w podziale na dostawcę</u>', unsafe_allow_html=True)
-        fig = px.bar(prod_ogolnie, x='Nazwa produktu', y='Łączna wartość (pln)', color='Dostawca')
+        fig = px.bar(prod_ogolnie, x='Nazwa produktu', y='Łączna wartość (pln)', color='Dostawca', color_discrete_map=kolory_dostawca)
         st.plotly_chart(fig, theme="streamlit")
         
         
@@ -191,22 +194,22 @@ with tab2:
         prod_nieneuca['Wartość procentowa'] = 100 * prod_nieneuca['Łączna wartość (pln)']/prod_nieneuca.groupby('Kod SAP produktu')['Łączna wartość (pln)'].transform('sum')
         
         st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
-        fig = px.bar(prod_neuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
+        fig = px.bar(prod_neuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja', color_discrete_map=kolory_promocja)
         st.plotly_chart(fig, theme="streamlit")
         st.write('\n')
         st.write('\n')
         st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
-        fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja')
+        fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Wartość procentowa', color='Znacznik promocja', color_discrete_map=kolory_promocja)
         st.plotly_chart(fig, theme="streamlit")
     
         
     else:
         st.write('<u>Sprzedaż wyróżnionych produktów przez NEUCA</u>', unsafe_allow_html=True)
-        fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+        fig = px.bar(prod_neuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja', color_discrete_map=kolory_promocja)
         st.plotly_chart(fig, theme="streamlit")
         st.write('\n')
         st.write('\n')
         st.write('<u>Sprzedaż wyróżnionych produktów przez konkurencję</u>', unsafe_allow_html=True)
-        fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja')
+        fig = px.bar(prod_nieneuca, x='Nazwa produktu', y='Łączna wartość (pln)', color='Znacznik promocja', color_discrete_map=kolory_promocja)
         st.plotly_chart(fig, theme="streamlit")
     
