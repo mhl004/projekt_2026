@@ -67,20 +67,20 @@ zbiory_czeste = apriori(Koszyk, use_colnames = True,min_support = m_s)
 rules = association_rules(zbiory_czeste,metric = 'lift',min_threshold = m_t)
 rules_tabelka = rules[['antecedents','consequents','confidence', 'lift']]
 tabelka_rules = pd.DataFrame()
-poprzednicy = []
+poprzedniki = []
 for x in rules_tabelka['antecedents']:
     pom = set()
     for i in x:
         pom.add(oferta_slownik[i])
-    poprzednicy.append(pom)
-nastepnicy = []
+    poprzedniki.append(pom)
+nastepniki = []
 for x in rules_tabelka['consequents']:
     pom = set()
     for i in x:
         pom.add(oferta_slownik[i])
-    nastepnicy.append(pom)
-tabelka_rules['Poprzednicy'] = poprzednicy
-tabelka_rules['Nastepnicy'] = nastepnicy
+    nastepniki.append(pom)
+tabelka_rules['Poprzedniki'] = poprzedniki
+tabelka_rules['Nastepniki'] = nastepniki
 tabelka_rules['Miara ufności'] = rules_tabelka['confidence']
 tabelka_rules['Miara wzrostu'] = rules_tabelka['lift']
 tabelka_rules = tabelka_rules.sort_values(['Miara wzrostu', 'Miara ufności'], ascending=False)
