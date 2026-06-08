@@ -110,7 +110,7 @@ style = "italic"
 weight = "900"
 
 [theme]
-primaryColor = "#12A8EC"
+primaryColor = "#019EE4"
 font = "Poppins"
 headingFontWeights = [600, 500, 400, 400, 400, 400]
 headingFontSizes = ["3rem", "2.5rem", "2rem", "2rem", "1.5rem"]
