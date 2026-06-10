@@ -77,7 +77,7 @@ do_wykresu = pd.DataFrame()
 do_wykresu['Liczba reguł'] = ktore
 do_wykresu['Miesiąc'] = range(1,13)
 do_wykresu['Miesiąc'] = do_wykresu['Miesiąc'].map(miesiac_slownik)
-fig = px.line(do_wykresu, y='Liczba reguł', x='Miesiąc')
+fig = px.bar(do_wykresu, y='Liczba reguł', x='Miesiąc')
 fig.update_layout(xaxis=dict(type='category'))
 st.plotly_chart(fig, theme="streamlit")
 
