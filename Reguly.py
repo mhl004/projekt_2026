@@ -127,7 +127,8 @@ else:
     top3 = nowa.nlargest(3, "Łączna wartość (pln)")
     p = set(top3['Kod SAP'])
     top3['Nazwa produktu'] = [oferta_slownik[i] for i in top3['Kod SAP']]
-    top3 = top3[['Nazwa produktu','Łączna wartość (pln)']]
+    top3['Średnia łączna wartość (pln)'] = [i/2 for i in top3['Łączna wartość (pln)']]
+    top3 = top3[['Nazwa produktu','Średnia łączna wartość (pln)']]
     st.table(top3)
 
 prod = Pozycja_kategoria[Pozycja_kategoria['Kod SAP produktu'].isin(p)]
